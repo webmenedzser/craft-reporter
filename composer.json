@@ -1,0 +1,41 @@
+{
+    "name": "webmenedzser/craft-reporter",
+    "description": "Craft Reporter plugin for Craft CMS.",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "reporter",
+        "status reporter"
+    ],
+    "support": {
+        "docs": "https://github.com/webmenedzser/craft-reporter/blob/master/README.md",
+        "issues": "https://github.com/webmenedzser/craft-reporter/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ottó Radics",
+            "homepage": "https://www.webmenedzser.hu"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0-RC1"
+    },
+    "autoload": {
+        "psr-4": {
+          "webmenedzser\\reporter\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Reporter",
+        "handle": "reporter",
+        "hasCpSettings": true,
+        "hasCpSection": false,
+        "changelogUrl": "https://raw.githubusercontent.com/webmenedzser/craft-reporter/master/CHANGELOG.md",
+        "class": "webmenedzser\\reporter\\Reporter"
+    }
+}

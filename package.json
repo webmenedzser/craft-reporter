@@ -1,0 +1,34 @@
+{
+  "name": "craft-reporter",
+  "description": "Craft Reporter plugin for Craft CMS.",
+  "version": "1.0.0",
+  "keywords": [
+    "craft",
+    "cms",
+    "craftcms",
+    "craft-plugin",
+    "reporter",
+    "status reporter"
+  ],
+  "author": [
+    {
+      "name": "Otto Radics",
+      "email": "otto@webmenedzser.hu",
+      "url": "https://www.webmenedzser.hu"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webmenedzser/craft-reporter.git"
+  },
+  "scripts": {
+    "changelog": "auto-changelog -p",
+    "version": "npm run replace-version && npm run changelog && git add -A",
+    "postversion": "git push && git push --tags",
+    "replace-version": "replace-in-file --configFile ./.replace-in-file.config.js"
+  },
+  "devDependencies": {
+    "auto-changelog": "^1.16.2",
+    "replace-in-file": "^4.2.0"
+  }
+}
