@@ -24,24 +24,28 @@ use GuzzleHttp\Exception\ClientException;
  */
 class CallBackend extends Component
 {
-    // TODO: change this URL before release!
     public $backendUrl = 'https://app.craft.report/api/v1/report/status';
     public $siteUrl;
     public $apiKey;
     public $client;
     public $response;
 
-    private function _initiate()
+    public function __construct($config = [])
     {
+        parent::__construct($config);
+
         $this->siteUrl = Reporter::$plugin->getSettings()->siteUrl;
         $this->apiKey = Reporter::$plugin->getSettings()->apiKey;
         $this->client = new Client();
+
+        $this->_connect();
     }
 
-    public function connect()
+    /**
+     * @return bool|\Exception|ClientException
+     */
+    private function _connect()
     {
-        $this->_initiate();
-
         try {
             $this->response = $this->client->request(
                 'POST',
@@ -52,11 +56,6 @@ class CallBackend extends Component
                         'siteUrl' => $this->siteUrl
                     ]
                 ]
-            );
-
-            Craft::info(
-                print_r($this->response, true),
-                __METHOD__
             );
 
             return false;

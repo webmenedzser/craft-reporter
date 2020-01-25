@@ -10,8 +10,8 @@
 
 namespace webmenedzser\reporter;
 
+use webmenedzser\reporter\jobs\CallBackendJob;
 use webmenedzser\reporter\models\Settings;
-use webmenedzser\reporter\services\Recheck;
 
 use Craft;
 use craft\base\Plugin;
@@ -139,13 +139,61 @@ class Reporter extends Plugin
 
                 if ($event->plugin === $this && isset($settings['regenerate'])) {
                     $user = Craft::$app->getUser()->getIdentity();
-                    $newKey = $this->generateApiToken();
+                    $newKey = $this->_generateApiToken();
 
                     Craft::$app->session->setNotice(Craft::t('reporter', 'Generated a new API Key. Make sure to save your settings.'));
                     Craft::$app->session->setFlash('apiKey', $newKey);
 
                     return Craft::$app->response->redirect(Craft::$app->request->getUrl())->sendAndClose();
                 }
+            }
+        );
+
+        Event::on(
+            Plugins::class,
+            Plugins::EVENT_AFTER_DISABLE_PLUGIN,
+            function() {
+                $this->_callBackend();
+            }
+        );
+
+        Event::on(
+            Plugins::class,
+            Plugins::EVENT_AFTER_ENABLE_PLUGIN,
+            function() {
+                $this->_callBackend();
+            }
+        );
+
+        Event::on(
+            Plugins::class,
+            Plugins::EVENT_AFTER_INSTALL_PLUGIN,
+            function() {
+                $this->_callBackend();
+            }
+        );
+
+        Event::on(
+            Plugins::class,
+            Plugins::EVENT_AFTER_UNINSTALL_PLUGIN,
+            function() {
+                $this->_callBackend();
+            }
+        );
+
+        Event::on(
+            ProjectConfig::class,
+            ProjectConfig::EVENT_AFTER_APPLY_CHANGES,
+            function() {
+                $this->_callBackend();
+            }
+        );
+
+        Event::on(
+            ProjectConfig::class,
+            ProjectConfig::EVENT_REBUILD,
+            function() {
+                $this->_callBackend();
             }
         );
     }
@@ -163,14 +211,19 @@ class Reporter extends Plugin
 
     }
 
+    private function _callBackend()
+    {
+        Craft::$app->queue->push(new CallBackendJob());
+    }
+
     /**
      * Generates a new API token.
      *
      * @return string
      */
-    private function generateApiToken(): string
+    private function _generateApiToken(): string
     {
-        return strtolower(static::key(40));
+        return strtolower(static::_key(40));
     }
 
     /**
@@ -180,7 +233,7 @@ class Reporter extends Plugin
      * @param string $extraChars
      * @return string
      */
-    private function key(int $length, string $extraChars = ''): string
+    private function _key(int $length, string $extraChars = ''): string
     {
         $licenseKey = '';
         $codeAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.$extraChars;
