@@ -25,7 +25,6 @@ use GuzzleHttp\Exception\ClientException;
 class CallBackend extends Component
 {
     public $backendUrl = 'https://app.craft.report/api/v1/report/status';
-    public $siteUrl;
     public $apiKey;
     public $client;
     public $response;
@@ -34,7 +33,6 @@ class CallBackend extends Component
     {
         parent::__construct($config);
 
-        $this->siteUrl = Reporter::$plugin->getSettings()->siteUrl;
         $this->apiKey = Reporter::$plugin->getSettings()->apiKey;
         $this->client = new Client();
 
@@ -53,7 +51,6 @@ class CallBackend extends Component
                 [
                     'form_params' => [
                         'key' => $this->apiKey,
-                        'siteUrl' => $this->siteUrl
                     ]
                 ]
             );
