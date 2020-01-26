@@ -16,6 +16,6 @@ class CallBackendJob extends BaseJob
 
     protected function defaultDescription()
     {
-        return 'Updating information in Craft Report.';
+        return 'Requesting Craft Report to check the site.';
     }
 }
