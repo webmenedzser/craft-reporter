@@ -58,7 +58,7 @@ class Versions extends Component
         $array = [];
 
         foreach ($plugins as $plugin) {
-            array_push($array, $plugin);
+            $array[] = $plugin;
         }
 
         return $array;
@@ -73,29 +73,23 @@ class Versions extends Component
      */
     private function _core()
     {
-        // $json = Craft::$app->getInfo();
-
-        $result = [
+        return [
             'edition' => Craft::$app->getEditionName(),
             'licencedEdition' => Craft::$app->getLicensedEditionName(),
             'info' => Craft::$app->getInfo(),
+            'devMode' => Craft::$app->config->general->devMode
         ];
-
-        return $result;
     }
 
     private function _runtime()
     {
-        $result = [
+        return [
             'phpVersion' => App::phpVersion(),
             'osVersion' => PHP_OS . ' ' . php_uname('r'),
             'yiiVersion' => Yii::getVersion(),
             'twigVersion' => Environment::VERSION,
-            'guzzleVersion' => Client::VERSION,
             'imagineVersion' => Imagine::VERSION,
         ];
-
-        return $result;
     }
 
     /**
