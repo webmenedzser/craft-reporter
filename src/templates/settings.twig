@@ -3,14 +3,6 @@
 {% set newKey = craft.app.session.getFlash('apiKey') %}
 
 {{ forms.textField({
-    label: "Site URL" | t('reporter'),
-    instructions: 'The URL you want Craft Report to check.' | t('reporter'),
-    name: 'siteUrl',
-    value: settings.siteUrl,
-    type: 'text',
-}) }}
-
-{{ forms.textField({
     label: "API Token" | t('reporter'),
     instructions: newKey ? 'This is your new API key, **keep it someplace safe** and make sure to save the settings.' | t('reporter') : '',
     name: 'apiKey',
