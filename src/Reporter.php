@@ -139,7 +139,7 @@ class Reporter extends Plugin
 
                 if ($event->plugin === $this && isset($settings['regenerate'])) {
                     $user = Craft::$app->getUser()->getIdentity();
-                    $newKey = $this->_generateApiToken();
+                    $newKey = $this->_generateApiKey();
 
                     Craft::$app->session->setNotice(Craft::t('reporter', 'Generated a new API Key. Make sure to save your settings.'));
                     Craft::$app->session->setFlash('apiKey', $newKey);
@@ -217,41 +217,12 @@ class Reporter extends Plugin
     }
 
     /**
-     * Generates a new API token.
+     * Generates a new API Key.
      *
      * @return string
      */
-    private function _generateApiToken(): string
+    private function _generateApiKey(): string
     {
-        return strtolower(static::_key(40));
-    }
-
-    /**
-     * Generates a new license key.
-     *
-     * @param int $length
-     * @param string $extraChars
-     * @return string
-     */
-    private function _key(int $length, string $extraChars = ''): string
-    {
-        $licenseKey = '';
-        $codeAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.$extraChars;
-        $alphabetLength = strlen($codeAlphabet);
-        $log = log($alphabetLength, 2);
-        $bytes = (int)($log / 8) + 1; // length in bytes
-        $bits = (int)$log + 1; // length in bits
-        $filter = (int)(1 << $bits) - 1; // set all lower bits to 1
-
-        for ($i = 0; $i < $length; $i++) {
-            do {
-                $rnd = hexdec(bin2hex(openssl_random_pseudo_bytes($bytes)));
-                $rnd &= $filter; // discard irrelevant bits
-            } while ($rnd >= $alphabetLength);
-
-            $licenseKey .= $codeAlphabet[$rnd];
-        }
-
-        return $licenseKey;
+        return Craft::$app->security->generateRandomString(30);
     }
 }
