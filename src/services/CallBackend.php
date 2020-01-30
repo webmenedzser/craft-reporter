@@ -24,7 +24,7 @@ use GuzzleHttp\Exception\ClientException;
  */
 class CallBackend extends Component
 {
-    public $backendUrl = 'https://app.craft.report/api/v1/report/status';
+    public $backendUrl = 'https://craft.report/api/v1/report/status';
     public $apiKey;
     public $client;
     public $response;
