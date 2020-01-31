@@ -2,7 +2,7 @@
     "name": "webmenedzser/craft-reporter",
     "description": "Craft Reporter plugin for Craft CMS.",
     "type": "craft-plugin",
-    "version": "1.4.1",
+    "version": "1.5.0",
     "keywords": [
         "craft",
         "cms",
