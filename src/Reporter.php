@@ -92,7 +92,7 @@ class Reporter extends Plugin
     protected function settingsHtml(): string
     {
         return Craft::$app->getView()->renderTemplate(
-            'reporter/settings',
+            'craft-reporter/settings',
             [
                 'settings' => $this->getSettings()
             ]
@@ -112,7 +112,7 @@ class Reporter extends Plugin
             Plugins::EVENT_AFTER_INSTALL_PLUGIN,
             function (PluginEvent $event) {
                 if ($event->plugin === $this && !Craft::$app->getRequest()->isConsoleRequest ) {
-                    Craft::$app->response->redirect(UrlHelper::cpUrl('settings/plugins/reporter'))->send();
+                    Craft::$app->response->redirect(UrlHelper::cpUrl('settings/plugins/craft-reporter'))->send();
                 }
             }
         );
@@ -141,7 +141,7 @@ class Reporter extends Plugin
                     $user = Craft::$app->getUser()->getIdentity();
                     $newKey = $this->_generateApiKey();
 
-                    Craft::$app->session->setNotice(Craft::t('reporter', 'Generated a new API Key. Make sure to save your settings.'));
+                    Craft::$app->session->setNotice(Craft::t('craft-reporter', 'Generated a new API Key. Make sure to save your settings.'));
                     Craft::$app->session->setFlash('apiKey', $newKey);
 
                     return Craft::$app->response->redirect(Craft::$app->request->getUrl())->sendAndClose();
@@ -220,6 +220,7 @@ class Reporter extends Plugin
      * Generates a new API Key.
      *
      * @return string
+     * @throws \yii\base\Exception
      */
     private function _generateApiKey(): string
     {

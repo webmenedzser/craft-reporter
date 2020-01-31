@@ -4,7 +4,7 @@
 
 {{ forms.textField({
     label: "API Token" | t('reporter'),
-    instructions: newKey ? 'This is your new API key, **keep it someplace safe** and make sure to save the settings.' | t('reporter') : '',
+    instructions: newKey ? 'This is your new API key, **keep it someplace safe** and make sure to save the settings.' : '',
     name: 'apiKey',
     value: newKey ?? settings.apiKey,
     type: newKey ? 'text' : 'password',
