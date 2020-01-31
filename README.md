@@ -1,10 +1,10 @@
 # Craft Reporter
 
-This plugin will enable status querying for [Craft Report](https://app.craft.report).
+This plugin will enable status querying for [Craft Report](https://craft.report).
 
 ## Requirements
 
-This plugin requires Craft CMS 3.2.0 or later. 
+This plugin requires Craft CMS 3.2.0 or later.
 
 ## Installation
 
@@ -22,7 +22,7 @@ To install the plugin, follow these instructions.
 
 ## Overview
 
-This plugin will enable status querying for [Craft Report](https://app.craft.report).
+This plugin will enable status querying for [Craft Report](https://craft.report).
 
 ## Configuring Craft Reporter
 
@@ -30,6 +30,6 @@ Navigate to **Settings 🡒 Reporter**. Generate a new API key, set the site URL
 
 ## Found a bug?
 
-Check the issues or [open a new one](https://github.com/webmenedzser/craft-reporter/issues)! 
+Check the issues or [open a new one](https://github.com/webmenedzser/craft-reporter/issues)!
 
 Brought to you by [dr. Ottó Radics](https://www.webmenedzser.hu)
