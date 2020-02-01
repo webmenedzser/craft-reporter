@@ -73,12 +73,16 @@ class Versions extends Component
      */
     private function _core()
     {
-        return [
+        $core = [
             'edition' => Craft::$app->getEditionName(),
             'licencedEdition' => Craft::$app->getLicensedEditionName(),
             'info' => Craft::$app->getInfo(),
             'devMode' => Craft::$app->config->general->devMode
         ];
+
+        unset($core['info']['configMap']);
+
+        return $core;
     }
 
     private function _runtime()
