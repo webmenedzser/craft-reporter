@@ -13,6 +13,7 @@ namespace webmenedzser\reporter\controllers;
 use webmenedzser\reporter\Reporter;
 
 use Craft;
+use craft\behaviors\EnvAttributeParserBehavior;
 use craft\web\Controller;
 use yii\web\BadRequestHttpException;
 use yii\web\UnauthorizedHttpException;
@@ -39,7 +40,7 @@ class BaseController extends Controller
         }
 
         $key = Craft::$app->request->getParam('key');
-        $apiKey = Reporter::$plugin->getSettings()->apiKey;
+        $apiKey = Craft::parseEnv(Reporter::$plugin->getSettings()->apiKey);
 
         if (!$key) {
             $message = 'Missing parameter: `key`.';

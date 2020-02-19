@@ -14,6 +14,7 @@ use webmenedzser\reporter\Reporter;
 
 use Craft;
 use craft\base\Component;
+use craft\behaviors\EnvAttributeParserBehavior;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 
@@ -33,7 +34,7 @@ class CallBackend extends Component
     {
         parent::__construct($config);
 
-        $this->apiKey = Reporter::$plugin->getSettings()->apiKey;
+        $this->apiKey = Craft::parseEnv(Reporter::$plugin->getSettings()->apiKey);
         $this->client = new Client();
 
         $this->_connect();

@@ -2,13 +2,14 @@
 
 {% set newKey = craft.app.session.getFlash('apiKey') %}
 
-{{ forms.textField({
-    label: "API Token" | t('reporter'),
-    instructions: newKey ? 'This is your new API key, **keep it someplace safe** and make sure to save the settings.' : '',
+{{ forms.autosuggestField({
+    required: true,
+    label: 'API Key' | t('craft-reporter'),
+    instructions: 'This is your API key, **keep it someplace safe** and make sure to save the settings.' | t('craft-reporter'),
+    id: 'apiKey',
     name: 'apiKey',
+    suggestEnvVars: true,
     value: newKey ?? settings.apiKey,
-    type: newKey ? 'text' : 'password',
-    readonly: 'readonly',
 }) }}
 
 <button type="submit" name="regenerate" class="btn submit">
