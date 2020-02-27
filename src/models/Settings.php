@@ -25,14 +25,4 @@ class Settings extends Model
 
         return $behaviors;
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['apiKey'], 'required'],
-        ];
-    }
 }
