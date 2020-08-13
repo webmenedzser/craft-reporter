@@ -80,8 +80,6 @@ class Versions extends Component
             'devMode' => Craft::$app->config->general->devMode
         ];
 
-        unset($core['info']['configMap']);
-
         return $core;
     }
 
