@@ -1,4 +1,4 @@
-# Craft Reporter
+# Craft Report
 
 This plugin will enable status querying for [Craft Report](https://craft.report).
 
@@ -24,9 +24,9 @@ To install the plugin, follow these instructions.
 
 This plugin will enable status querying for [Craft Report](https://craft.report).
 
-## Configuring Craft Reporter
+## Configuring Craft Report
 
-Navigate to **Settings 🡒 Reporter**. Generate a new API key, set the site URL and click Save. Now navigate to Craft Report and add a new site with these settings.
+Navigate to **Settings 🡒 Craft Report**. Generate a new API key, set the site URL and click Save. Now navigate to [Craft Report](https://craft.report) and add a new site with these settings.
 
 ## Found a bug?
 

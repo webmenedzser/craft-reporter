@@ -1,6 +1,6 @@
 {
     "name": "webmenedzser/craft-reporter",
-    "description": "Craft Reporter plugin for Craft CMS.",
+    "description": "Companion plugin for Craft Report.",
     "type": "craft-plugin",
     "version": "1.6.0",
     "keywords": [
@@ -31,7 +31,7 @@
         }
     },
     "extra": {
-        "name": "Craft Reporter",
+        "name": "Craft Report",
         "handle": "craft-reporter",
         "hasCpSettings": true,
         "hasCpSection": false,

@@ -1,6 +1,6 @@
 {
   "name": "craft-reporter",
-  "description": "Craft Reporter plugin for Craft CMS.",
+  "description": "Companion plugin for Craft Report.",
   "version": "1.6.0",
   "keywords": [
     "craft",
