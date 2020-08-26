@@ -9,6 +9,7 @@ use craft\behaviors\EnvAttributeParserBehavior;
 class Settings extends Model
 {
     public $apiKey = '';
+    public $exposeComposerLock = false;
 
     /**
      * @inheritdoc

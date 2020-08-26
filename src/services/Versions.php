@@ -40,9 +40,14 @@ class Versions extends Component
             'plugins' => $this->_plugins(),
             'core' => $this->_core(),
             'runtime' => $this->_runtime(),
+            'composerLock' => null
         ];
 
-        $result = json_encode($result);
+        if (Reporter::$plugin->getSettings()->exposeComposerLock) {
+            $result['composerLock'] = $this->_composerLock();
+        }
+
+        $result = json_encode($result, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES);
 
         return $result;
     }
@@ -102,5 +107,25 @@ class Versions extends Component
     private function _updates()
     {
         return Craft::$app->updates->getUpdates(true);
+    }
+
+    /**
+     * Expose composer.lock content
+     *
+     * @since 1.7.0
+     * @return mixed|null
+     */
+    private function _composerLock()
+    {
+        $dependencies = [];
+        $composerLockPath = Craft::getAlias(CRAFT_BASE_PATH . DIRECTORY_SEPARATOR . 'composer.lock');
+
+        try {
+            $composerLockContent = file_get_contents($composerLockPath);
+
+            return json_decode($composerLockContent);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 }
