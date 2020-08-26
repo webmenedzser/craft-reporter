@@ -5,20 +5,16 @@
 {{ forms.autosuggestField({
     required: true,
     label: 'API Key' | t('craft-reporter'),
-    instructions: 'This is your API key, **keep it someplace safe** and make sure to save the settings.' | t('craft-reporter'),
+    instructions: 'This is your automatically generated API key. **Make sure to save the settings!**' | t('craft-reporter'),
     id: 'apiKey',
     name: 'apiKey',
     suggestEnvVars: true,
-    value: newKey ?? settings.apiKey,
+    value: settings.apiKey ?: craft.app.security.generateRandomString(30),
 }) }}
-
-<button type="submit" name="regenerate" class="btn submit">
-    Generate a new API Token
-</button>
 
 {{ forms.lightswitchField({
     'label': 'Expose content of composer.lock' | t('craft-reporter'),
-    'instructions': 'Enabling this toggle will expose the content of your project\'s composer.lock file through the API. If you want security notifications, turn this on.' | t('craft-reporter'),
+    'instructions': 'Enabling this toggle will expose the content of your project\'s composer.lock file through the API. If you would like to receive security notifications about possible vulnerabilities in your dependency tree, turn this on.' | t('craft-reporter'),
     'id': 'exposeComposerLock',
     'name': 'exposeComposerLock',
     'on': settings.exposeComposerLock,

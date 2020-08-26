@@ -72,7 +72,7 @@ class Reporter extends Plugin
         self::$plugin = $this;
 
         $this->_registerLogger();
-        $this->_redirectAfterInstall();
+        $this->_afterInstall();
         $this->_registerEvents();
     }
 
@@ -105,7 +105,7 @@ class Reporter extends Plugin
     /**
      * Redirect user to the plugin settings page after install.
      */
-    private function _redirectAfterInstall()
+    private function _afterInstall()
     {
         Event::on(
             Plugins::class,
@@ -128,24 +128,6 @@ class Reporter extends Plugin
             UrlManager::EVENT_REGISTER_SITE_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
                 $event->rules['reporter/status'] = 'craft-reporter/status/index';
-            }
-        );
-
-        Event::on(
-            Plugins::class,
-            Plugins::EVENT_BEFORE_SAVE_PLUGIN_SETTINGS,
-            function (PluginEvent $event) {
-                $settings = Craft::$app->request->getParam('settings');
-
-                if ($event->plugin === $this && isset($settings['regenerate'])) {
-                    $user = Craft::$app->getUser()->getIdentity();
-                    $newKey = $this->_generateApiKey();
-
-                    Craft::$app->session->setNotice(Craft::t('craft-reporter', 'Generated a new API Key. Make sure to save your settings.'));
-                    Craft::$app->session->setFlash('apiKey', $newKey);
-
-                    return Craft::$app->response->redirect(Craft::$app->request->getUrl())->sendAndClose();
-                }
             }
         );
 
