@@ -174,10 +174,8 @@ class Reporter extends Plugin
         Event::on(
             ProjectConfig::class,
             ProjectConfig::EVENT_AFTER_APPLY_CHANGES,
-            function(PluginEvent $event) {
-                if ($event->plugin !== $this) {
-                    $this->_callBackend();
-                }
+            function(Event $event) {
+                $this->_callBackend();
             }
         );
 
@@ -185,10 +183,8 @@ class Reporter extends Plugin
             Event::on(
                 ProjectConfig::class,
                 ProjectConfig::EVENT_REBUILD,
-                function(PluginEvent $event) {
-                    if ($event->plugin !== $this) {
-                        $this->_callBackend();
-                    }
+                function(Event $event) {
+                    $this->_callBackend();
                 }
             );
         }
