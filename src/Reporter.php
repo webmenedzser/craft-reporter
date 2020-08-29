@@ -181,13 +181,17 @@ class Reporter extends Plugin
             }
         );
 
-        Event::on(
-            ProjectConfig::class,
-            ProjectConfig::EVENT_REBUILD,
-            function() {
-                $this->_callBackend();
-            }
-        );
+        if (defined('craft\services\ProjectConfig::EVENT_REBUILD')) {
+            Event::on(
+                ProjectConfig::class,
+                ProjectConfig::EVENT_REBUILD,
+                function(PluginEvent $event) {
+                    if ($event->plugin !== $this) {
+                        $this->_callBackend();
+                    }
+                }
+            );
+        }
     }
 
     private function _registerLogger()
