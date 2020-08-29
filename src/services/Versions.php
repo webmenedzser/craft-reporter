@@ -81,7 +81,7 @@ class Versions extends Component
         $core = [
             'edition' => Craft::$app->getEditionName(),
             'licencedEdition' => Craft::$app->getLicensedEditionName(),
-            'info' => Craft::$app->getInfo(),
+            'info' => $this->_cleanInfo(),
             'devMode' => Craft::$app->config->general->devMode
         ];
 
@@ -127,5 +127,28 @@ class Versions extends Component
         } catch (\Exception $e) {
             return null;
         }
+    }
+
+    /**
+     * Safely unset unneeded members of $info.
+     *
+     * @throws \yii\web\ServerErrorHttpException
+     */
+    private function _cleanInfo()
+    {
+        $info = Craft::$app->getInfo();
+
+        $config = $info['config'] ?? null;
+        $configMap = $info['configMap'] ?? null;
+
+        if ($config) {
+            unset($info['config']);
+        }
+
+        if ($configMap) {
+            unset($info['configMap']);
+        }
+
+        return $info;
     }
 }
