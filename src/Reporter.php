@@ -134,40 +134,50 @@ class Reporter extends Plugin
         Event::on(
             Plugins::class,
             Plugins::EVENT_AFTER_DISABLE_PLUGIN,
-            function() {
-                $this->_callBackend();
+            function(PluginEvent $event) {
+                if ($event->plugin !== $this) {
+                    $this->_callBackend();
+                }
             }
         );
 
         Event::on(
             Plugins::class,
             Plugins::EVENT_AFTER_ENABLE_PLUGIN,
-            function() {
-                $this->_callBackend();
+            function(PluginEvent $event) {
+                if ($event->plugin !== $this) {
+                    $this->_callBackend();
+                }
             }
         );
 
         Event::on(
             Plugins::class,
             Plugins::EVENT_AFTER_INSTALL_PLUGIN,
-            function() {
-                $this->_callBackend();
+            function(PluginEvent $event) {
+                if ($event->plugin !== $this) {
+                    $this->_callBackend();
+                }
             }
         );
 
         Event::on(
             Plugins::class,
             Plugins::EVENT_AFTER_UNINSTALL_PLUGIN,
-            function() {
-                $this->_callBackend();
+            function(PluginEvent $event) {
+                if ($event->plugin !== $this) {
+                    $this->_callBackend();
+                }
             }
         );
 
         Event::on(
             ProjectConfig::class,
             ProjectConfig::EVENT_AFTER_APPLY_CHANGES,
-            function() {
-                $this->_callBackend();
+            function(PluginEvent $event) {
+                if ($event->plugin !== $this) {
+                    $this->_callBackend();
+                }
             }
         );
 
