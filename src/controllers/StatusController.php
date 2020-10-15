@@ -10,13 +10,9 @@
 
 namespace webmenedzser\reporter\controllers;
 
-use webmenedzser\reporter\Reporter;
 use webmenedzser\reporter\services\Versions;
 
-use Craft;
-use craft\web\Controller;
-use yii\web\BadRequestHttpException;
-use yii\web\UnauthorizedHttpException;
+use yii\web\NotFoundHttpException;
 
 /**
  * @author    Ottó Radics
@@ -52,8 +48,7 @@ class StatusController extends BaseController
      * Function that gets hit when a request is made to `/reporter/status`.
      *
      * @return array|false|string
-     * @throws BadRequestHttpException
-     * @throws UnauthorizedHttpException
+     * @throws NotFoundHttpException
      */
     public function actionIndex()
     {
