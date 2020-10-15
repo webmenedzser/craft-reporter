@@ -13,9 +13,9 @@ namespace webmenedzser\reporter\controllers;
 use webmenedzser\reporter\Reporter;
 
 use Craft;
-use craft\behaviors\EnvAttributeParserBehavior;
 use craft\web\Controller;
 use yii\web\BadRequestHttpException;
+use yii\web\NotFoundHttpException;
 use yii\web\UnauthorizedHttpException;
 
 /**
@@ -28,30 +28,24 @@ class BaseController extends Controller
     /**
      * Checks if the request should be fulfilled or not.
      *
-     * @throws BadRequestHttpException
-     * @throws UnauthorizedHttpException
+     * @throws NotFoundHttpException
      */
-    protected function checkIfAuthenticated()
+    protected function checkIfAuthenticated() : void
     {
-        if (!Craft::$app->request->isPost) {
-            $message = 'Only POST requests are supported.';
-
-            throw new BadRequestHttpException($message);
-        }
-
+        $path = Craft::$app->request->getFullPath();
         $key = Craft::$app->request->getParam('key');
         $apiKey = Craft::parseEnv(Reporter::$plugin->getSettings()->apiKey);
 
-        if (!$key) {
-            $message = 'Missing parameter: `key`.';
+        if (!Craft::$app->request->isPost) {
+            throw new NotFoundHttpException('Template not found: ' . $path);
+        }
 
-            throw new BadRequestHttpException($message);
+        if (!$key) {
+            throw new NotFoundHttpException('Template not found: ' . $path);
         }
 
         if ($key !== $apiKey) {
-            $message = 'Unauthenticated access is not allowed.';
-
-            throw new UnauthorizedHttpException($message);
+            throw new NotFoundHttpException('Template not found: ' . $path);
         }
     }
 }
