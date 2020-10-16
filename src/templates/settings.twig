@@ -12,6 +12,16 @@
     value: settings.apiKey ?: craft.app.security.generateRandomString(30),
 }) }}
 
+{{ forms.autosuggestField({
+    required: false,
+    label: 'Backup Encryption Key' | t('craft-reporter'),
+    instructions: 'Set a password which will protect your DB backups.' | t('craft-reporter'),
+    id: 'backupEncryptionKey',
+    name: 'backupEncryptionKey',
+    suggestEnvVars: true,
+    value: settings.backupEncryptionKey ?: '',
+}) }}
+
 {{ forms.lightswitchField({
     'label': 'Expose content of composer.lock' | t('craft-reporter'),
     'instructions': 'Enabling this toggle will expose the content of your project\'s composer.lock file through the API. If you would like to receive security notifications about possible vulnerabilities in your dependency tree, turn this on.' | t('craft-reporter'),

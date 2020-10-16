@@ -10,6 +10,7 @@ class Settings extends Model
 {
     public $apiKey = '';
     public $exposeComposerLock = false;
+    public $backupEncryptionKey = '';
 
     /**
      * @inheritdoc
@@ -20,7 +21,8 @@ class Settings extends Model
         $behaviors['parser'] = [
             'class' => EnvAttributeParserBehavior::class,
             'attributes' => [
-                'apiKey'
+                'apiKey',
+                'backupEncryptionKey'
             ],
         ];
 
