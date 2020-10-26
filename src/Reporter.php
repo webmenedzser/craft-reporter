@@ -242,7 +242,6 @@ class Reporter extends Plugin
 
         // Add the new target file target to the dispatcher
         Craft::getLogger()->dispatcher->targets[] = $fileTarget;
-
     }
 
     private function _callBackend()
