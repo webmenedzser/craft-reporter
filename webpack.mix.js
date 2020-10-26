@@ -1,5 +1,4 @@
 let mix = require('laravel-mix');
-const glob = require('glob-all');
 
 /*
  |--------------------------------------------------------------------------
