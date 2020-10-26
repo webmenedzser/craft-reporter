@@ -25,10 +25,18 @@
     "changelog": "auto-changelog -p",
     "version": "npm run replace-version && npm run changelog && git add -A",
     "postversion": "git push && git push --tags",
-    "replace-version": "replace-in-file --configFile ./.replace-in-file.config.js"
+    "replace-version": "replace-in-file --configFile ./.replace-in-file.config.js",
+    "dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "npm run dev -- --watch",
+    "build": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "devDependencies": {
     "auto-changelog": "^1.16.4",
+    "cross-env": "^7.0.2",
+    "laravel-mix": "^5.0.7",
     "replace-in-file": "^4.2.0"
+  },
+  "dependencies": {
+    "vue": "^2.6.12"
   }
 }

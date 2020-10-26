@@ -12,16 +12,21 @@ namespace webmenedzser\reporter;
 
 use webmenedzser\reporter\jobs\CallBackendJob;
 use webmenedzser\reporter\models\Settings;
+use webmenedzser\reporter\utilities\RestoreUtility;
 
 use Craft;
 use craft\base\Plugin;
+use craft\events\PluginEvent;
+use craft\events\RegisterComponentTypesEvent;
+use craft\events\RegisterUrlRulesEvent;
+use craft\events\RegisterUserPermissionsEvent;
+use craft\helpers\UrlHelper;
+use craft\log\FileTarget;
 use craft\services\Plugins;
 use craft\services\ProjectConfig;
-use craft\events\PluginEvent;
+use craft\services\UserPermissions;
+use craft\services\Utilities;
 use craft\web\UrlManager;
-use craft\events\RegisterUrlRulesEvent;
-use craft\log\FileTarget;
-use craft\helpers\UrlHelper;
 
 use yii\base\Event;
 
@@ -74,6 +79,8 @@ class Reporter extends Plugin
         $this->_registerLogger();
         $this->_afterInstall();
         $this->_registerEvents();
+        $this->_registerPermissions();
+        $this->_registerUtilities();
     }
 
     // Protected Methods
@@ -188,6 +195,41 @@ class Reporter extends Plugin
                 }
             );
         }
+    }
+
+    private function _registerPermissions()
+    {
+        // If Craft edition is pro
+        if (Craft::$app->getEdition() === Craft::Pro) {
+            Event::on(
+                UserPermissions::class,
+                UserPermissions::EVENT_REGISTER_PERMISSIONS,
+                function(RegisterUserPermissionsEvent $event) {
+                    $event->permissions['Reporter'] = [
+                        'craft-reporter:restore-utility' => [
+                            'label' => Craft::t(
+                                'craft-reporter',
+                                'Restore Backups'
+                            )
+                        ]
+                    ];
+                }
+            );
+        }
+    }
+
+    private function _registerUtilities()
+    {
+        // Register utility
+        Event::on(
+            Utilities::class,
+            Utilities::EVENT_REGISTER_UTILITY_TYPES,
+            function(RegisterComponentTypesEvent $event) {
+                if (Craft::$app->getUser()->checkPermission('craft-reporter:restore-utility')) {
+                    $event->types[] = RestoreUtility::class;
+                }
+            }
+        );
     }
 
     private function _registerLogger()

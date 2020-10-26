@@ -1,0 +1,25 @@
+{% import "_includes/forms" as forms %}
+
+{% set canRestore = currentUser.can('craft-reporter:restore-utility') ?? false %}
+{% do view.registerAssetBundle("webmenedzser\\reporter\\assetbundles\\utilities\\RestoreUtilityAsset") %}
+
+{% block content %}
+    {% if canRestore %}
+        <p class="light">
+            {{ 'You can restore the last Database Backup from Craft Report.' | t('craft-reporter') }}
+        </p>
+
+        <div id="craft-reporter-vue">
+            <RestoreForm
+                prop-action-url="{{ actionUrl('craft-reporter/backup/restore') }}"
+                prop-csrf-token="{{ craft.app.request.csrfToken }}"
+                prop-key="{{ settings.apiKey }}"
+            ></RestoreForm>
+        </div>
+    {% else %}
+        <p class="light">
+            {{ 'You don\'t have permissions to restore Database Backup from Craft Report.' | t('craft-reporter') }}
+        </p>
+    {% endif %}
+{% endblock %}
+
