@@ -11,10 +11,15 @@
 namespace webmenedzser\reporter\services;
 
 use webmenedzser\reporter\Reporter;
+use webmenedzser\reporter\helpers\FilenameHelper;
 
 use Craft;
 use craft\base\Component;
 
+use \Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use ZipArchive;
 
 /**
@@ -24,7 +29,11 @@ use ZipArchive;
  */
 class BackupService extends Component
 {
-    public function createDbBackup() : string
+    /**
+     * @throws \craft\errors\ShellCommandException
+     * @throws \yii\base\Exception
+     */
+    public function createDbBackup()
     {
         $backupPath = Craft::$app->db->backup();
 
@@ -39,7 +48,7 @@ class BackupService extends Component
          */
         $zip = new ZipArchive();
         $zipPath = $backupPath . '.zip';
-        if ($zip->open($zipPath, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE) !== TRUE) {
+        if ($zip->open($zipPath, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE) !== true) {
             die ("An error occurred when creating ZIP file.");
         }
 
@@ -58,10 +67,116 @@ class BackupService extends Component
         $zip->close();
 
         /**
-         * Delete the uncompressed backup.
+         * Stream file to client.
+         */
+        Craft::$app->getResponse()->sendFile($zipPath);
+
+        /**
+         * Delete the files to prevent unnecessary storage use.
          */
         unlink($backupPath);
+        unlink($zipPath);
+    }
 
-        return $zipPath;
+    /**
+     * @return bool
+     * @throws \Exception
+     */
+    public function restoreDbBackup()
+    {
+        $location = Craft::$app->getPath()->getDbBackupPath();
+        $zipPath = $this->_downloadBackup($location);
+        $backupFilename = $this->_extractBackup($zipPath);
+        $backupPath = $location . DIRECTORY_SEPARATOR . $backupFilename;
+
+        if (!is_file($backupPath)) {
+            throw new FileNotFoundException();
+        }
+
+        try {
+            Craft::$app->getDb()->restore($backupPath);
+        } catch (\Throwable $e) {
+            Craft::$app->getErrorHandler()->logException($e);
+
+            return false;
+        }
+
+        unlink($backupPath);
+
+        return true;
+    }
+
+    /**
+     * Download DB Backup from Craft Report.
+     *
+     * @param String $location
+     *
+     * @return false|string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    private function _downloadBackup(String $location)
+    {
+        $key = Craft::parseEnv(Reporter::$plugin->getSettings()->apiKey);
+        if (!$key) {
+            throw new \Exception('Craft Report API Key is not set.');
+        }
+
+        $client = new Client();
+        $filename = FilenameHelper::getFilename('db-backup', $key, 'zip');
+        $path = $location . DIRECTORY_SEPARATOR . $filename;
+
+        $client->request(
+            'POST',
+            'https://craft.report/api/v1/restore',
+            [
+                'sink' => $path,
+                'form_params' => [
+                    'key' => $key
+                ]
+            ]
+        );
+
+
+        return $path;
+    }
+
+    /**
+     * Extract archive on $path.
+     *
+     * @param String $zipPath
+     *
+     * @return false|string
+     * @throws \yii\base\Exception
+     */
+    private function _extractBackup(String $zipPath) : String
+    {
+        /**
+         * Open and extract archive.
+         */
+        $zipArchive = new ZipArchive();
+        if ($zipArchive->open($zipPath) !== true) {
+            throw new Exception('Failed extracting ZIP archive.');
+        }
+
+        /**
+         * Set backupEncryptionKey if it is set in plugin settings.
+         */
+        $backupEncryptionKey = Craft::parseEnv(Reporter::$plugin->getSettings()->backupEncryptionKey) ?? null;
+        if ($backupEncryptionKey) {
+
+            $zipArchive->setPassword($backupEncryptionKey);
+        }
+
+        $backupFilename = $zipArchive->getNameIndex(0);
+
+        $zipArchive->extractTo(Craft::$app->getPath()->getDbBackupPath());
+        $zipArchive->close();
+
+        /**
+         * Delete archive.
+         */
+        unlink($zipPath);
+
+        return $backupFilename;
     }
 }

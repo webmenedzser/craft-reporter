@@ -47,10 +47,11 @@ class BackupController extends BaseController
     // =========================================================================
 
     /**
-     * Function that gets hit when a request is made to `/reporter/status`.
+     * Function that gets hit when a request is made to `/reporter/backup`.
      *
-     * @return array|false|string
      * @throws NotFoundHttpException
+     * @throws \craft\errors\ShellCommandException
+     * @throws \yii\base\Exception
      */
     public function actionIndex()
     {
@@ -60,8 +61,24 @@ class BackupController extends BaseController
         $this->checkIfAuthenticated();
 
         $backupService = new BackupService();
-        $backupFile = $backupService->createDbBackup();
+        $backupService->createDbBackup();
+    }
 
-        return Craft::$app->getResponse()->sendFile($backupFile);
+    /**
+     *
+     *
+     * @return bool
+     * @throws \yii\web\BadRequestHttpException
+     * @throws \yii\web\ForbiddenHttpException
+     */
+    public function actionRestore()
+    {
+        $this->requirePostRequest();
+        $this->requireCpRequest();
+        $this->requirePermission('craft-reporter:restore-utility');
+
+        $backupService = new BackupService();
+
+        return $backupService->restoreDbBackup();
     }
 }
