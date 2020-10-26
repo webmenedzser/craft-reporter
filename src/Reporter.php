@@ -92,7 +92,7 @@ class Reporter extends Plugin
     protected function settingsHtml(): string
     {
         return Craft::$app->getView()->renderTemplate(
-            'craft-reporter/settings',
+            'craft-reporter/_settings',
             [
                 'settings' => $this->getSettings()
             ]
