@@ -2,7 +2,7 @@
     "name": "webmenedzser/craft-reporter",
     "description": "Companion plugin for Craft Report.",
     "type": "craft-plugin",
-    "version": "1.9.0",
+    "version": "1.10.0",
     "keywords": [
         "craft",
         "cms",
