@@ -23,7 +23,7 @@
   },
   "scripts": {
     "changelog": "auto-changelog -p",
-    "version": "npm run replace-version && npm run changelog && git add -A",
+    "version": "npm run replace-version && npm run build && npm run changelog && git add -A",
     "postversion": "git push && git push --tags",
     "replace-version": "replace-in-file --configFile ./.replace-in-file.config.js",
     "dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
