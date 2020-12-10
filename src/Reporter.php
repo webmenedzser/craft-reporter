@@ -16,6 +16,7 @@ use webmenedzser\reporter\utilities\RestoreUtility;
 
 use Craft;
 use craft\base\Plugin;
+use craft\console\Application as ConsoleApplication;
 use craft\events\PluginEvent;
 use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
@@ -75,6 +76,10 @@ class Reporter extends Plugin
     {
         parent::init();
         self::$plugin = $this;
+
+        if (Craft::$app instanceof ConsoleApplication) {
+            $this->controllerNamespace = 'webmenedzser\reporter\console\controllers';
+        }
 
         $this->_registerLogger();
         $this->_afterInstall();
