@@ -21,7 +21,7 @@ use yii\console\Controller;
  *
  * @author    Ottó Radics
  * @package   Reporter
- * @since     1.9.0
+ * @since     1.11.0
  */
 class BackupController extends Controller
 {
