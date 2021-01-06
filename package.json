@@ -32,13 +32,13 @@
   },
   "devDependencies": {
     "auto-changelog": "^1.16.4",
-    "cross-env": "^7.0.2",
-    "laravel-mix": "^5.0.7",
+    "cross-env": "^7.0.3",
+    "laravel-mix": "^5.0.9",
     "replace-in-file": "^4.2.0",
     "vue-template-compiler": "^2.6.12"
   },
   "dependencies": {
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "vue": "^2.6.12"
   }
 }
