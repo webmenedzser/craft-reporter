@@ -32,4 +32,4 @@ Navigate to **Settings 🡒 Craft Report**. Generate a new API key, set the site
 
 Check the issues or [open a new one](https://github.com/webmenedzser/craft-reporter/issues)!
 
-Brought to you by [dr. Ottó Radics](https://www.webmenedzser.hu)
+Brought to you by [dr. Ottó Radics](https://ottoradics.hu)
