@@ -13,6 +13,9 @@ use webmenedzser\reporter\services\BackupService;
 use Craft;
 use craft\errors\ShellCommandException;
 
+use yii\base\Exception;
+use yii\web\BadRequestHttpException;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
 /**
