@@ -4,7 +4,7 @@ This plugin will enable status querying for [Craft Report](https://craft.report)
 
 ## Requirements
 
-This plugin requires Craft CMS 3.2.0 or later.
+This plugin requires Craft CMS 4.0.0 or later.
 
 ## Installation
 
