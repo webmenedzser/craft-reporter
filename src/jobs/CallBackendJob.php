@@ -15,12 +15,12 @@ use craft\queue\BaseJob;
 
 class CallBackendJob extends BaseJob
 {
-    public function execute($queue)
+    public function execute($queue) : void
     {
         new CallBackend();
     }
 
-    protected function defaultDescription()
+    protected function defaultDescription() : ?string
     {
         return 'Requesting Craft Report to check the site.';
     }

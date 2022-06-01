@@ -11,6 +11,7 @@ namespace webmenedzser\reporter\controllers;
 use webmenedzser\reporter\services\BackupService;
 
 use Craft;
+use craft\errors\ShellCommandException;
 
 use yii\web\NotFoundHttpException;
 
@@ -39,7 +40,7 @@ class BackupController extends BaseController
      *         The actions must be in 'kebab-case'
      * @access protected
      */
-    protected $allowAnonymous = ['index'];
+    protected array|int|bool $allowAnonymous = ['index'];
 
     // Public Methods
     // =========================================================================
@@ -48,8 +49,8 @@ class BackupController extends BaseController
      * Function that gets hit when a request is made to `/reporter/backup`.
      *
      * @throws NotFoundHttpException
-     * @throws \craft\errors\ShellCommandException
-     * @throws \yii\base\Exception
+     * @throws ShellCommandException
+     * @throws Exception
      */
     public function actionIndex()
     {
@@ -66,8 +67,8 @@ class BackupController extends BaseController
      *
      *
      * @return bool
-     * @throws \yii\web\BadRequestHttpException
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws BadRequestHttpException
+     * @throws ForbiddenHttpException|\Exception
      */
     public function actionRestore()
     {

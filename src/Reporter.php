@@ -52,17 +52,17 @@ class Reporter extends Plugin
     /**
      * @var string
      */
-    public $schemaVersion = '1.2.0';
+    public string $schemaVersion = '1.2.0';
 
     /**
      * @inheritdoc
      */
-    public $hasCpSettings = true;
+    public bool $hasCpSettings = true;
 
     /**
      * @inheritdoc
      */
-    public $hasCpSection = false;
+    public bool $hasCpSection = false;
 
     // Public Methods
     // =========================================================================
@@ -91,7 +91,7 @@ class Reporter extends Plugin
     /**
      * @inheritdoc
      */
-    protected function createSettingsModel(): Settings
+    protected function createSettingsModel() : ?\craft\base\Model
     {
         return new Settings();
     }
@@ -99,7 +99,7 @@ class Reporter extends Plugin
     /**
      * @inheritdoc
      */
-    protected function settingsHtml(): string
+    protected function settingsHtml() : ?string
     {
         return Craft::$app->getView()->renderTemplate(
             'craft-reporter/_settings',
@@ -115,7 +115,7 @@ class Reporter extends Plugin
     /**
      * Redirect user to the plugin settings page after install.
      */
-    private function _afterInstall()
+    private function _afterInstall() : void
     {
         Event::on(
             Plugins::class,
@@ -131,12 +131,12 @@ class Reporter extends Plugin
     /**
      * Register event listeners.
      */
-    private function _registerEvents()
+    private function _registerEvents() : void
     {
         Event::on(
             UrlManager::class,
             UrlManager::EVENT_REGISTER_SITE_URL_RULES,
-            function (RegisterUrlRulesEvent $event) {
+            static function (RegisterUrlRulesEvent $event) {
                 $event->rules['reporter/status'] = 'craft-reporter/status/index';
             }
         );
@@ -200,14 +200,14 @@ class Reporter extends Plugin
         }
     }
 
-    private function _registerPermissions()
+    private function _registerPermissions() : void
     {
         // If Craft edition is pro
         if (Craft::$app->getEdition() === Craft::Pro) {
             Event::on(
                 UserPermissions::class,
                 UserPermissions::EVENT_REGISTER_PERMISSIONS,
-                function(RegisterUserPermissionsEvent $event) {
+                static function(RegisterUserPermissionsEvent $event) {
                     $event->permissions['Reporter'] = [
                         'craft-reporter:restore-utility' => [
                             'label' => Craft::t(
@@ -221,7 +221,7 @@ class Reporter extends Plugin
         }
     }
 
-    private function _registerUtilities()
+    private function _registerUtilities() : void
     {
         // Register utility
         Event::on(
@@ -247,7 +247,7 @@ class Reporter extends Plugin
         Craft::getLogger()->dispatcher->targets[] = $fileTarget;
     }
 
-    private function _callBackend()
+    private function _callBackend() : void
     {
         Craft::$app->queue->push(new CallBackendJob());
     }
@@ -256,9 +256,9 @@ class Reporter extends Plugin
      * Generates a new API Key.
      *
      * @return string
-     * @throws \yii\base\Exception
+     * @throws Exception
      */
-    private function _generateApiKey(): string
+    private function _generateApiKey() : string
     {
         return Craft::$app->security->generateRandomString(30);
     }

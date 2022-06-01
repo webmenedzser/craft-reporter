@@ -13,6 +13,10 @@ use webmenedzser\reporter\services\BackupService;
 use Craft;
 
 use yii\console\Controller;
+use yii\web\BadRequestHttpException;
+use yii\web\ForbiddenHttpException;
+
+use Exception;
 
 /**
  * Craft Report CLI commands.
@@ -27,8 +31,8 @@ class BackupController extends Controller
      * Restore remote backup from Craft Report.
      *
      * @return bool
-     * @throws \yii\web\BadRequestHttpException
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws BadRequestHttpException
+     * @throws ForbiddenHttpException|Exception
      */
     public function actionRestore()
     {

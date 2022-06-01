@@ -13,6 +13,7 @@ use webmenedzser\reporter\helpers\FilenameHelper;
 
 use Craft;
 use craft\base\Component;
+use craft\errors\ShellCommandException;
 
 use \Exception;
 use GuzzleHttp\Client;
@@ -28,10 +29,10 @@ use ZipArchive;
 class BackupService extends Component
 {
     /**
-     * @throws \craft\errors\ShellCommandException
+     * @throws ShellCommandException
      * @throws \yii\base\Exception
      */
-    public function createDbBackup()
+    public function createDbBackup() : void
     {
         $backupPath = Craft::$app->db->backup();
 

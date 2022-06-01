@@ -32,7 +32,7 @@ class RestoreUtility extends Utility
         return 'craft-reporter-restore-utility';
     }
 
-    public static function iconPath()
+    public static function iconPath() : ?string
     {
         return Craft::getAlias('@vendor/webmenedzser/craft-reporter/src/icon-mask.svg');
     }
