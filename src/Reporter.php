@@ -20,7 +20,7 @@ use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\events\RegisterUserPermissionsEvent;
 use craft\helpers\UrlHelper;
-use craft\log\FileTarget;
+use craft\log\MonologTarget;
 use craft\services\Plugins;
 use craft\services\ProjectConfig;
 use craft\services\UserPermissions;
@@ -28,6 +28,11 @@ use craft\services\Utilities;
 use craft\web\UrlManager;
 
 use yii\base\Event;
+use yii\base\Exception;
+use yii\log\Logger;
+
+use Monolog\Formatter\LineFormatter;
+use Psr\Log\LogLevel;
 
 /**
  * Class Reporter
@@ -79,7 +84,7 @@ class Reporter extends Plugin
             $this->controllerNamespace = 'webmenedzser\reporter\console\controllers';
         }
 
-        $this->_registerLogger();
+        $this->_registerLogTarget();
         $this->_afterInstall();
         $this->_registerEvents();
         $this->_registerPermissions();
@@ -235,16 +240,32 @@ class Reporter extends Plugin
         );
     }
 
-    private function _registerLogger()
+    /**
+     * Logs a message.
+     *
+     * @param string $message
+     * @param int    $type
+     *
+     * @return void
+     */
+    public function log(string $message, int $type = Logger::LEVEL_INFO) : void
     {
-        // Create a new file target
-        $fileTarget = new FileTarget([
-            'logFile' => '@storage/logs/reporter.log',
-            'categories' => ['webmenedzser\reporter\*']
-        ]);
+        Craft::getLogger()->log($message, $type, 'craft-reporter');
+    }
 
-        // Add the new target file target to the dispatcher
-        Craft::getLogger()->dispatcher->targets[] = $fileTarget;
+    private function _registerLogTarget() : void
+    {
+        Craft::getLogger()->dispatcher->targets[] = new MonologTarget([
+            'name' => 'craft-reporter',
+            'categories' => ['craft-reporter'],
+            'level' => LogLevel::INFO,
+            'logContext' => false,
+            'allowLineBreaks' => false,
+            'formatter' => new LineFormatter(
+                format: "[%datetime%] %message%\n",
+                dateFormat: 'Y-m-d H:i:s',
+            ),
+        ]);
     }
 
     private function _callBackend() : void
