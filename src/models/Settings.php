@@ -1,4 +1,10 @@
 <?php
+/**
+ * Craft Report companion plugin for Craft CMS 4.x
+ *
+ * @link      https://craft.report
+ * @copyright Copyright (c) 2020 Ottó Radics
+ */
 
 namespace webmenedzser\reporter\models;
 
