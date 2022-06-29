@@ -14,9 +14,15 @@ To install the plugin, follow these instructions.
 
         cd /path/to/project
 
-2. Then tell Composer to load the plugin:
+2. Then tell Composer to install the plugin:
 
-        composer require webmenedzser/craft-reporter
+**Craft 3:**
+
+        composer require webmenedzser/craft-reporter:~1.0
+        
+**Craft 4:**
+        
+        composer require webmenedzser/craft-reporter:^2.0
 
 3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Billingo for Craft Commerce.
 
