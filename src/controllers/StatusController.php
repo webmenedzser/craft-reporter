@@ -45,7 +45,7 @@ class StatusController extends BaseController
     /**
      * Function that gets hit when a request is made to `/reporter/status`.
      *
-     * @return array|false|string
+     * @return \yii\web\Response
      * @throws NotFoundHttpException
      */
     public function actionIndex()
@@ -60,6 +60,6 @@ class StatusController extends BaseController
          */
         $versions = new Versions();
 
-        return $versions->all();
+        return $this->asJson($versions->all());
     }
 }
