@@ -213,12 +213,15 @@ class Reporter extends Plugin
                 UserPermissions::class,
                 UserPermissions::EVENT_REGISTER_PERMISSIONS,
                 static function(RegisterUserPermissionsEvent $event) {
-                    $event->permissions['Reporter'] = [
-                        'craft-reporter:restore-utility' => [
-                            'label' => Craft::t(
-                                'craft-reporter',
-                                'Restore Backups'
-                            )
+                    $event->permissions[] = [
+                        'heading' => 'Craft Reporter',
+                        'permissions' => [
+                            'craft-reporter:restore-utility' => [
+                                'label' => Craft::t(
+                                    'craft-reporter',
+                                    'Restore Backups'
+                                )
+                            ]
                         ]
                     ];
                 }
