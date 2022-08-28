@@ -45,8 +45,6 @@ class Versions extends Component
             $result['composerLock'] = $this->_composerLock();
         }
 
-        $result = json_encode($result, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES);
-
         return $result;
     }
 
